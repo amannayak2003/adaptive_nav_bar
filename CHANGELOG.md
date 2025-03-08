@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.0.1] - Initial Release
+## [0.0.2] - Initial Release
 ### Added
-- 🎉 First release of `adaptive_nav_bar`!
+- 🎉 First release of `adaptive_bottom_nav`!
 - 🌟 Adaptive bottom navigation bar with animations
 - 🎨 Glassmorphism effect support
 - 🎯 GetX state management integration
