@@ -16,4 +16,4 @@ class NavItem {
     this.inactiveColor,
     this.showBadge = false,
   });
-} 
+}
