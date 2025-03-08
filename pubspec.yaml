@@ -1,0 +1,25 @@
+name: adaptive_nav_bar
+
+description: A beautiful, animated, and customizable bottom navigation bar for Flutter with GetX state management.
+
+version: 0.0.1
+homepage: https://github.com/yourusername/adaptive_nav_bar
+repository: https://github.com/yourusername/adaptive_nav_bar
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

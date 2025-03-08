@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'models/nav_item.dart';
+import 'controllers/navigation_controller.dart';
+import 'controllers/theme_controller.dart';
+import 'views/home_page.dart';
+import 'views/profile_page.dart';
+import 'views/settings_page.dart';
+import 'views/notifications_page.dart';
+import 'widgets/adaptive_nav_bar.dart';
+
+void main() {
+  // Initialize controllers
+  Get.put(NavigationController());
+  Get.put(ThemeController());
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
+
+  final ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.light,
+    colorSchemeSeed: Colors.blue,
+    scaffoldBackgroundColor: const Color(0xFFF8F9FA),
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+    ),
+  );
+
+  final ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    colorSchemeSeed: Colors.blue,
+    scaffoldBackgroundColor: const Color(0xFF1A1A1A),
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+    ),
+  );
+
+  final List<NavItem> navigationItems = [
+    NavItem(
+      label: 'Home',
+      icon: Icons.home_rounded,
+      screen: HomePage(),
+      activeColor: const Color(0xFF2196F3),
+    ),
+    NavItem(
+      label: 'Notifications',
+      icon: Icons.notifications_rounded,
+      screen: NotificationsPage(),
+      activeColor: const Color(0xFFFF9800),
+      showBadge: true,
+    ),
+    const NavItem(
+      label: 'Profile',
+      icon: Icons.person_rounded,
+      screen: ProfilePage(),
+      activeColor: Color(0xFF9C27B0),
+    ),
+    const NavItem(
+      label: 'Settings',
+      icon: Icons.settings_rounded,
+      screen: SettingsPage(),
+      activeColor: Color(0xFF009688),
+      inactiveColor: Colors.grey,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final themeController = Get.find<ThemeController>();
+
+    return GetMaterialApp(
+      title: 'Adaptive Nav Bar',
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeController.themeMode,
+      defaultTransition: Transition.fadeIn,
+      home: Scaffold(
+        extendBody: true,
+        body: Obx(() => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: IndexedStack(
+                key: ValueKey<int>(
+                    Get.find<NavigationController>().selectedIndex.value),
+                index: Get.find<NavigationController>().selectedIndex.value,
+                children: navigationItems.map((item) => item.screen).toList(),
+              ),
+            )),
+        bottomNavigationBar: AdaptiveNavBar(
+          items: navigationItems,
+          height: 65,
+          elevation: 5,
+          backgroundColor:
+              Get.isDarkMode ? const Color(0xFF2D2D2D) : Colors.white,
+          selectedItemColor:
+              Get.isDarkMode ? Colors.white : Colors.blue,
+          unselectedItemColor: Get.isDarkMode
+              ? Colors.white.withOpacity(0.5)
+              : Colors.black.withOpacity(0.5),
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          selectedFontSize: 12,
+          unselectedFontSize: 11,
+        ),
+      ),
+    );
+  }
+}
